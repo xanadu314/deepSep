@@ -16,4 +16,4 @@ You can use the `create_ORF.py` to collect all TGA triplets in the six reading f
 You can see the detail in the `model_train_val.py`.
 
 ## 4. Inference
-Run deepSep with `test.py` and `homology.py`.
+Run deep-Sep with `test.py` and `homology.py`.
