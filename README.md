@@ -5,7 +5,7 @@ In this study, we develop a deep learning-based algorithm, deep-Sep, for quickly
 ## 1. Enviroment setup
 You can use the requirements.txt file to install all the necessary Python packages on your server. You will need at least one NVIDIA GPU.
 
-'<pip install -r requirements.txt>' 
+`pip install -r requirements.txt`
 
 Alternatively, you can use Conda to install all the essential packages.
 
