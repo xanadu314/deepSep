@@ -26,7 +26,7 @@ def diamond_func(query, out, threads):
     logging.info('DIAMOND prediction starts on the dataset')
 
     program = './diamond_v2.1.8/diamond'
-    db_path = './model/db'
+    db_path = '../model/db'
     outfmt = '6 stitle qseqid sseqid pident length mismatch gapopen qstart qend sstart send sseq_gapped qseq_gapped evalue bitscore'
 
     command = f"{program} blastp --db {db_path} -q {query} --out {out} --outfmt {outfmt} --threads {threads} --masking 0 --ultra-sensitive --max-target-seqs 100 --id 20 -e 1e-2"

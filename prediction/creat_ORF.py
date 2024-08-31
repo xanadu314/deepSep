@@ -133,7 +133,6 @@ def creat_ORF_main_func(sequence, id, save_path):
     if not os.path.exists(output_path):
         os.makedirs(output_path)
 
-
     all_forward_nt_seqs = []
     all_forward_nr_seqs = []
     all_forward_tgas = []
