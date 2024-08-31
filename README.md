@@ -10,10 +10,10 @@ You can use the `requirements.txt` file to install all the necessary Python pack
 Alternatively, you can use Conda to install all the essential packages.
 
 ## 2. Data processing
-You can use the `create_ORF.py` to collect all TGA triplets in the six reading frames (both strands) of each query genome and analyze the regions upstream and downstream of each TGA triplet for the presence of a reasonable ORF. Meanwhile, for those ORFs containing possible in-frame TGA codons, 300 nts immediately downstream of the TGA codon are collected.
-
+You can use the `prediction/create_ORF.py` to collect all TGA triplets in the six reading frames (both strands) of each query genome and analyze the regions upstream and downstream of each TGA triplet for the presence of a reasonable ORF. Meanwhile, for those ORFs containing possible in-frame TGA codons, 300 nts immediately downstream of the TGA codon are collected.
+ 
 ## 3. Train Model 
-You can download from Google Driver [Model](https://drive.google.com/drive/u/1/folders/12DUpJQpV-LEk0Z0BGuES3p3HLdpRt7zd). Then you need to put these things (about neural network model and db based on homology search) into the "model" folder.
+You can download from Google Driver [Model](https://drive.google.com/drive/u/1/folders/12DUpJQpV-LEk0Z0BGuES3p3HLdpRt7zd). Then you need to put these things (about neural network model and db based on homology search) into the `model` folder.
 
 You can see the detail in the `model_train_val.py`.
 
