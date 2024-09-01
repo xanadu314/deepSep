@@ -11,7 +11,7 @@ Alternatively, you can use Conda to install all the essential packages.
 
 ## 2. Data processing
 ###2.1
-You can download the data from Google Driver [Data](https://drive.google.com/drive/folders/1J0bXIK0r7z6h-LKqm4q2Xt2SWTR64qg2?usp=drive_link). 
+You can download the data from Google Driver [Data](https://drive.google.com/drive/folders/1J0bXIK0r7z6h-LKqm4q2Xt2SWTR64qg2?usp=drive_link). Then you need to put these data into the `data` folder.
 
 ###2.2
 You can use the `prediction/create_ORF.py` to collect all TGA triplets in the six reading frames (both strands) of each query genome and analyze the regions upstream and downstream of each TGA triplet for the presence of a reasonable ORF. Meanwhile, for those ORFs containing possible in-frame TGA codons, 300 nts immediately downstream of the TGA codon are collected.
@@ -45,7 +45,7 @@ You can get prediction by running
 ```
 python prediction/main.py \
     -sequence TTGGAGACCTGGAGACCATGCGCTTATCAACCTGATGACGCTGCGATATTAGAAGATTTTGATATCACACATCTCAAAAACACATTGGAGGTCATTATGAAATTATACGAAAAACTCAATGAAATTAAGCAGAAGTCTATAGCGAATATACCACCTGAATTGATTGCAATCATGCTTAAAAGCACCGAAGAACTGGTACAATCAGGAATCGCTGATAAGGCGATCAGCGTTGGTGAAGCTCTACCGGAGTTTACACTTCCCGATGCAAATGGCAATCTGATCAGTTCAAGAGATCTTCTTGCAAAAGGCCCTCTTGCCATCAGTTTTTATCGGGGTATATGGTGACCTTACTGTAACGTTGAGCTGGAAGCTCTGCAGGAAGTCTACGGTCAGGTACTGGGACTCGGAGGTTCATTCATCGCTATTTCCCCCCAACTGAGTAAATATACACAACAGGTTGTAAAAAAGAATAACCTCACTTTTCCGGTACTGGTCGATGCAGATAACGGGTATGCTGAGAAACTTGGCCTGACTTTCCCCTTGCCGGAAAAACTCAAGGAAGTGTATAAAGGTTTCGGCATTGATCTTGAGCGCTTCAATGGTAACAATTCATGGAAGCTCCCAATGTCCGGAAGGTTTATCATTGCCAGCGACGGTATTATCAGATCGACTGAGGTGCATCCGGACCATACCATCAGGCCGGAACCAAAAGAAATCGTTGATCTTCTGAAATCAATTGCTTAG \
-    -program_path /home/xiaoyao/data/diamond_v2.1.8/diamond
+    -program_path ../diamond_v2.1.8/diamond (Change to the path where your Diamond program is located)
 ```
 
 Based on the above command, a `tmp` folder will be automatically generated under the `prediction` folder based on the provided sequence, and the collected ORFs will be stored in `ORFs` folder, and the prediction results of the neural network (called `dl_result.csv`), the Diamond homology search that will be stored in the `homology` folder, and the filtered results (called `final_results.csv`) will be generated .
