@@ -10,10 +10,10 @@ You can use the `requirements.txt` file to install all the necessary Python pack
 Alternatively, you can use Conda to install all the essential packages.
 
 ## 2. Data processing
-###2.1
+### 2.1
 You can download the data from Google Driver [Data](https://drive.google.com/drive/folders/1J0bXIK0r7z6h-LKqm4q2Xt2SWTR64qg2?usp=drive_link). Then you need to put these data into the `data` folder.
 
-###2.2
+### 2.2
 You can use the `prediction/create_ORF.py` to collect all TGA triplets in the six reading frames (both strands) of each query genome and analyze the regions upstream and downstream of each TGA triplet for the presence of a reasonable ORF. Meanwhile, for those ORFs containing possible in-frame TGA codons, 300 nts immediately downstream of the TGA codon are collected.
 
 ## 3. Train Model 
