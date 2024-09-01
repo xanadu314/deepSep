@@ -22,10 +22,10 @@ def get_queries(diamond_input, all_nr, queries_file_name):
 
     return new_pre_pos_nr
 
-def diamond_func(query, out, threads):
+def diamond_func(query, out, program_path, threads):
     logging.info('DIAMOND prediction starts on the dataset')
 
-    program = './diamond_v2.1.8/diamond'
+    program = program_path # './diamond_v2.1.8/diamond'
     db_path = '../model/db'
     outfmt = '6 stitle qseqid sseqid pident length mismatch gapopen qstart qend sstart send sseq_gapped qseq_gapped evalue bitscore'
 

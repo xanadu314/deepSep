@@ -41,7 +41,11 @@ class DeepSep_neural_net(torch.nn.Module):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-sequence', help='str')
+    parser.add_argument('-diamond_program_path', help='path')
     args = parser.parse_args()
+
+    sequence = str(args.sequence)
+    diamond_program_path = args.diamond_program_path
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     tokenizer = AutoTokenizer.from_pretrained('../model/tokenizer')
@@ -49,7 +53,6 @@ if __name__ == '__main__':
     model = DeepSep_neural_net(AutoModel.from_pretrained('../model/checkpoint-11007')).to(device)
     model.load_state_dict(checkpoint['state_dict'])
 
-    sequence = str(args.sequence)
     sequence_string = filtered_sequence_func(sequence)
 
     if not sequence_string.startswith('>'):
@@ -81,11 +84,23 @@ if __name__ == '__main__':
 
     new_df_nr = get_queries(dl_result, df_nr_sentence, diamond_input)
 
-    diamond_func(diamond_input, diamond_pred_output, threads=160)
+    with open(diamond_input, 'r') as diamond_input_file:
+        if diamond_input_file.readline():
+            diamond_func(diamond_input, diamond_pred_output, diamond_program_path, threads=160)
 
-    with open(diamond_pred_output, 'r') as file:
-        if file.readline():
-            preliminary_result = analysis(result_output_dir, diamond_pred_output)
-        
+            with open(diamond_pred_output, 'r') as file:
+                if file.readline():
+                    preliminary_result = analysis(result_output_dir, diamond_pred_output)
 
+                    DeepSep_result = dl_result[dl_result['header'].isin(preliminary_result['qseqid'])]  # 拿结果
 
+                    DeepSep_result['nr'] = DeepSep_result['header'].map(new_df_nr.set_index('header')['sequence'])
+
+                    DeepSep_result.to_csv(f'{prefix_location}/final_results.csv', index=False)
+
+                else:
+                    with open(f'{prefix_location}/final_results.txt', 'w') as final_file:
+                        final_file.write('Not Find Any Selenoproteins.')
+
+        else:
+            raise ValueError("DL model did not predict any possible selenoproteins.")
