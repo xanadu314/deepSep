@@ -10,8 +10,12 @@ You can use the `requirements.txt` file to install all the necessary Python pack
 Alternatively, you can use Conda to install all the essential packages.
 
 ## 2. Data processing
+###2.1
+You can download the data from Google Driver [Data](https://drive.google.com/drive/folders/1J0bXIK0r7z6h-LKqm4q2Xt2SWTR64qg2?usp=drive_link). 
+
+###2.2
 You can use the `prediction/create_ORF.py` to collect all TGA triplets in the six reading frames (both strands) of each query genome and analyze the regions upstream and downstream of each TGA triplet for the presence of a reasonable ORF. Meanwhile, for those ORFs containing possible in-frame TGA codons, 300 nts immediately downstream of the TGA codon are collected.
- 
+
 ## 3. Train Model 
 You can download from Google Driver [Model](https://drive.google.com/drive/u/1/folders/12DUpJQpV-LEk0Z0BGuES3p3HLdpRt7zd). Then you need to put these things (about neural network model and db based on homology search) into the `model` folder.
 
@@ -22,35 +26,26 @@ You can see the detail in the `test.py`.
 
 You can use the /data/test.csv to test the model by running
 ```
-k=3
-i=300
-
-test_df=data/test.csv
-tokenizer=model/tokenizer
-pretrained_model=model/checkpoint-11007
-finetuned_model=model
-test_save_path=test_output
-
 python test.py \
-    -k ${k} \ 
-    -max_length ${i} \
-    -test_df ${test_df} \
-    -tokenizer ${tokenizer} \
-    -pretrained_model ${pretrained_model} \
-    -finetuned_model ${finetuned_model} \
-    -output_path ${test_save_path} \
-    -hidden_size 768 
+    -k 3 \
+    -max_length 300 \
+    -test_df data/test.csv \
+    -tokenizer model/tokenizer \
+    -pretrained_model model/checkpoint-11007 \
+    -finetuned_model model \
+    -output_path test_output \
+    -hidden_size 768
 ```
 
-Based on the above command, the neural network model will be tested based on the `data/test.csv`, and the test results will be stored in the `test_output` folder
+Based on the above command, the neural network model will be tested based on the `data/test.csv`, and the test results will be stored in the automatically generated `test_output` folder.
 
 ## 5. Prediction
 <!-- Run deepSep with test.py and homology.py. -->
 You can get prediction by running
 ```
-sequence=TTGGAGACCTGGAGACCATGCGCTTATCAACCTGATGACGCTGCGATATTAGAAGATTTTGATATCACACATCTCAAAAACACATTGGAGGTCATTATGAAATTATACGAAAAACTCAATGAAATTAAGCAGAAGTCTATA
-
-python prediction/main.py -sequence ${sequence}
+python prediction/main.py \
+    -sequence TTGGAGACCTGGAGACCATGCGCTTATCAACCTGATGACGCTGCGATATTAGAAGATTTTGATATCACACATCTCAAAAACACATTGGAGGTCATTATGAAATTATACGAAAAACTCAATGAAATTAAGCAGAAGTCTATAGCGAATATACCACCTGAATTGATTGCAATCATGCTTAAAAGCACCGAAGAACTGGTACAATCAGGAATCGCTGATAAGGCGATCAGCGTTGGTGAAGCTCTACCGGAGTTTACACTTCCCGATGCAAATGGCAATCTGATCAGTTCAAGAGATCTTCTTGCAAAAGGCCCTCTTGCCATCAGTTTTTATCGGGGTATATGGTGACCTTACTGTAACGTTGAGCTGGAAGCTCTGCAGGAAGTCTACGGTCAGGTACTGGGACTCGGAGGTTCATTCATCGCTATTTCCCCCCAACTGAGTAAATATACACAACAGGTTGTAAAAAAGAATAACCTCACTTTTCCGGTACTGGTCGATGCAGATAACGGGTATGCTGAGAAACTTGGCCTGACTTTCCCCTTGCCGGAAAAACTCAAGGAAGTGTATAAAGGTTTCGGCATTGATCTTGAGCGCTTCAATGGTAACAATTCATGGAAGCTCCCAATGTCCGGAAGGTTTATCATTGCCAGCGACGGTATTATCAGATCGACTGAGGTGCATCCGGACCATACCATCAGGCCGGAACCAAAAGAAATCGTTGATCTTCTGAAATCAATTGCTTAG \
+    -program_path /home/xiaoyao/data/diamond_v2.1.8/diamond
 ```
 
-Based on the above command, a `tmp` folder will be automatically generated under the `prediction` folder based on the provided sequence, and the collected ORFs will be stored in this folder, and the prediction results of the neural network, the Diamond homology search, and the filtered results will be generated.
+Based on the above command, a `tmp` folder will be automatically generated under the `prediction` folder based on the provided sequence, and the collected ORFs will be stored in `ORFs` folder, and the prediction results of the neural network (called `dl_result.csv`), the Diamond homology search that will be stored in the `homology` folder, and the filtered results (called `final_results.csv`) will be generated .
