@@ -2,6 +2,8 @@
 
 In this study, we develop a deep learning-based algorithm, deep-Sep, for quickly and precisely identifying bacterial selenoprotein genes in genomic sequences. This algorithm uses a Transformer-based neural network architecture to build an optimal model for Sec-encoding UGA codon in bacteria, and a homology search-based strategy to remove additional false positives.
 
+This is our online-server [web](http://deepsep.metalbioinfolab.net:7001/). We welcome you to try it out.
+
 ## 1. Enviroment setup
 You can use the `requirements.txt` file to install all the necessary Python packages on your server. You will need at least one NVIDIA GPU.
 
