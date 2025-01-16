@@ -13,7 +13,7 @@ Alternatively, you can use Conda to install all the essential packages.
 
 ## 2. Data processing
 ### 2.1
-You can download the data from Google Driver [Data](https://drive.google.com/file/d/187E_TFCbVom-nXuc3Uh7jk9wJxOe8giT/view?usp=drive_link). Then you need to put these data into the `data` folder.
+You can download the 'test_sample.csv'.
 
 ### 2.2
 You can use the `prediction/create_ORF.py` to collect all TGA triplets in the six reading frames (both strands) of each query genome and analyze the regions upstream and downstream of each TGA triplet for the presence of a reasonable ORF. Meanwhile, for those ORFs containing possible in-frame TGA codons, 300 nts immediately downstream of the TGA codon are collected.
@@ -26,12 +26,12 @@ You can see the detail in the `model_train_val.py`.
 ## 4. Test Model 
 You can see the detail in the `test.py`.
 
-You can use the /data/test.csv to test the model by running
+You can use the test_sample.csv to test the model by running
 ```
 python test.py \
     -k 3 \
     -max_length 300 \
-    -test_df data/test.csv \
+    -test_df test_sample.csv \
     -tokenizer model/tokenizer \
     -pretrained_model model/checkpoint-11007 \
     -finetuned_model model \
@@ -39,7 +39,7 @@ python test.py \
     -hidden_size 768
 ```
 
-Based on the above command, the neural network model will be tested based on the `data/test.csv`, and the test results will be stored in the automatically generated `test_output` folder.
+Based on the above command, the neural network model will be tested based on the `test_sample.csv`, and the test results will be stored in the automatically generated `test_output` folder.
 
 ## 5. Prediction
 <!-- Run deepSep with test.py and homology.py. -->
