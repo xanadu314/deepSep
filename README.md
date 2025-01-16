@@ -13,7 +13,7 @@ Alternatively, you can use Conda to install all the essential packages.
 
 ## 2. Data processing
 ### 2.1
-You can download the 'test_sample.csv'.
+You can download the `test_sample.csv`.
 
 ### 2.2
 You can use the `prediction/create_ORF.py` to collect all TGA triplets in the six reading frames (both strands) of each query genome and analyze the regions upstream and downstream of each TGA triplet for the presence of a reasonable ORF. Meanwhile, for those ORFs containing possible in-frame TGA codons, 300 nts immediately downstream of the TGA codon are collected.
