@@ -1,32 +1,31 @@
 # deep-Sep
 
-In this study, we develop a deep learning-based algorithm, deep-Sep, for quickly and precisely identifying bacterial selenoprotein genes in genomic sequences. This algorithm uses a Transformer-based neural network architecture to build an optimal model for Sec-encoding UGA codon in bacteria, and a homology search-based strategy to remove additional false positives.
+In this study, we have developed a deep learning-based algorithm named deep-Sep, which is designed to quickly and accurately identify bacterial selenoprotein genes within genomic sequences. This algorithm uses a Transformer-based neural network architecture to construct an optimal model specifically for the Sec-encoding UGA codon in bacteria, and a homology search-based strategy to further minimize false positives. The online server platform is available at http://deepsep.metalbioinfolab.net:7001/.
 
-This is our online-server [web](http://deepsep.metalbioinfolab.net:7001/). We welcome you to try it out.
-
+## Detailed steps for configuring and utilizing deep-Sep (Local Version)
 ## 1. Enviroment setup
-You can use the `requirements.txt` file to install all the necessary Python packages on your server. You will need at least one NVIDIA GPU.
+To set up the necessary environment for deep-Sep, you can use the requirements.txt file to install all required Python packages on your server. Please note that you will need at least one NVIDIA GPU for optimal performance.
 
+To install the packages using pip, simply run:
 `pip install -r requirements.txt`
 
-Alternatively, you can use Conda to install all the essential packages.
+Alternatively, you can use Conda to install the essential packages.
 
 ## 2. Data processing
-### 2.1
-You can download the `test_sample.csv`.
+### 2.1 Downloading the test sample data:
+You can download the `test_sample.csv` file to use as a starting point for your analysis.
 
-### 2.2
-You can use the `prediction/create_ORF.py` to collect all TGA triplets in the six reading frames (both strands) of each query genome and analyze the regions upstream and downstream of each TGA triplet for the presence of a reasonable ORF. Meanwhile, for those ORFs containing possible in-frame TGA codons, 300 nts immediately downstream of the TGA codon are collected.
+### 2.2 Creating open reading frames (ORFs):
+Use the `prediction/create_ORF.py` script to process your query genome data. This script will identify all TGA triplets in the six reading frames of both strands and analyze the upstream and downstream regions for the presence of a reasonable ORF. For ORFs that contain potential in-frame TGA codons, the script will collect the 300 nucleotides immediately downstream of the TGA codon.
 
-## 3. Train Model 
-You can download from Google Driver [Model](https://drive.google.com/drive/folders/14DFJasrvLaHuodaN_oUF5AXtDV2YwgIA?usp=drive_link). Then you need to put these things (about neural network model and db based on homology search) into the `model` folder.
+## 3. Train Model (if needed)
+If you need to train the model from scratch, you can download the necessary files from Google Driver [Model](https://drive.google.com/drive/folders/14DFJasrvLaHuodaN_oUF5AXtDV2YwgIA?usp=drive_link) and place them in the `model` folder (including the neural network model and the database based on homology search). However, for most users, pre-trained models will be sufficient.
 
-You can see the detail in the `model_train_val.py`.
+Details on training can be found in the `model_train_val.py` script.
 
 ## 4. Test Model 
-You can see the detail in the `test.py`.
+To test the trained model, use the `test.py` script. This will evaluate the model's performance on the `test_sample.csv` file.
 
-You can use the test_sample.csv to test the model by running
 ```
 python test.py \
     -k 3 \
@@ -39,15 +38,22 @@ python test.py \
     -hidden_size 768
 ```
 
-Based on the above command, the neural network model will be tested based on the `test_sample.csv`, and the test results will be stored in the automatically generated `test_output` folder.
+This will generate test results in the `test_output` folder.
 
 ## 5. Prediction
 <!-- Run deepSep with test.py and homology.py. -->
-You can get prediction by running
+To make predictions on new sequences, use the `main.py` script in the `prediction` folder.
+
 ```
 python prediction/main.py \
-    -sequence TTGGAGACCTGGAGACCATGCGCTTATCAACCTGATGACGCTGCGATATTAGAAGATTTTGATATCACACATCTCAAAAACACATTGGAGGTCATTATGAAATTATACGAAAAACTCAATGAAATTAAGCAGAAGTCTATAGCGAATATACCACCTGAATTGATTGCAATCATGCTTAAAAGCACCGAAGAACTGGTACAATCAGGAATCGCTGATAAGGCGATCAGCGTTGGTGAAGCTCTACCGGAGTTTACACTTCCCGATGCAAATGGCAATCTGATCAGTTCAAGAGATCTTCTTGCAAAAGGCCCTCTTGCCATCAGTTTTTATCGGGGTATATGGTGACCTTACTGTAACGTTGAGCTGGAAGCTCTGCAGGAAGTCTACGGTCAGGTACTGGGACTCGGAGGTTCATTCATCGCTATTTCCCCCCAACTGAGTAAATATACACAACAGGTTGTAAAAAAGAATAACCTCACTTTTCCGGTACTGGTCGATGCAGATAACGGGTATGCTGAGAAACTTGGCCTGACTTTCCCCTTGCCGGAAAAACTCAAGGAAGTGTATAAAGGTTTCGGCATTGATCTTGAGCGCTTCAATGGTAACAATTCATGGAAGCTCCCAATGTCCGGAAGGTTTATCATTGCCAGCGACGGTATTATCAGATCGACTGAGGTGCATCCGGACCATACCATCAGGCCGGAACCAAAAGAAATCGTTGATCTTCTGAAATCAATTGCTTAG \
-    -program_path ../diamond_v2.1.8/diamond (Change to the path where your Diamond program is located)
+    -sequence [your_sequence_here] \
+    -program_path [path_to_diamond_program]
 ```
+Replace `[your_sequence_here]` with the actual sequence you want to predict and `[path_to_diamond_program]` with the path to your Diamond program installation.
 
-Based on the above command, a `tmp` folder will be automatically generated under the `prediction` folder based on the provided sequence, and the collected ORFs will be stored in `ORFs` folder, and the prediction results of the neural network (called `dl_result.csv`), the Diamond homology search that will be stored in the `homology` folder, and the filtered results (called `final_results.csv`) will be generated .
+The script will: \
+·&nbsp;&nbsp;Generate a `temporary (tmp)` folder under the `prediction` folder. \
+·&nbsp;&nbsp;Store the collected ORFs in the `ORFs` folder. \
+·&nbsp;&nbsp;Generate the neural network prediction results in `dl_result.csv`. \
+·&nbsp;&nbsp;Perform a Diamond homology search and store the results in the `homology` folder. \
+·&nbsp;&nbsp;Generate the final filtered results in `final_results.csv`.
