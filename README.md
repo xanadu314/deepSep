@@ -4,7 +4,7 @@ In this study, we have developed a deep learning-based algorithm named deep-Sep,
 
 ## Detailed steps for configuring and utilizing deep-Sep (Local Version)
 ## 1. Enviroment setup
-To set up the necessary environment for deep-Sep, you can use the requirements.txt file to install all required Python packages on your server. Please note that you will need at least one NVIDIA GPU for optimal performance.
+To set up the necessary environment for deep-Sep, you can use the `requirements.txt` file to install all required Python packages on your server. Please note that you will need at least one NVIDIA GPU for optimal performance.
 
 To install the packages using pip, simply run:
 `pip install -r requirements.txt`
