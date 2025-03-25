@@ -52,7 +52,7 @@ python prediction/main.py \
 
 # OR
 
-# Option 2: Pass a FASTA file (recommended for long sequences)
+# Option 2: Pass a FASTA file (recommended for long sequence)
 python prediction/main.py \
     -sequence_file [/path/to/your_sequence.fasta] \
     -diamond_program_path [path_to_diamond_program]
