@@ -45,11 +45,21 @@ This will generate test results in the `test_output` folder.
 To make predictions on new sequences, use the `main.py` script in the `prediction` folder.
 
 ```
+# Option 1: Pass a short sequence directly
 python prediction/main.py \
     -sequence [your_sequence_here] \
-    -program_path [path_to_diamond_program]
+    -diamond_program_path [path_to_diamond_program]
+
+# OR
+
+# Option 2: Pass a FASTA file (recommended for long sequences)
+python prediction/main.py \
+    -sequence_file [/path/to/your_sequence.fasta] \
+    -diamond_program_path [path_to_diamond_program]
 ```
-Replace `[your_sequence_here]` with the actual sequence you want to predict and `[path_to_diamond_program]` with the path to your Diamond program installation.
+Replace: \
+·&nbsp;&nbsp;`[your_sequence_here]` with the actual **sequence (short)** you want to predict **OR** `[/path/to/your_sequence.fasta]` with the path to your **FASTA file** you want to predict. \
+·&nbsp;&nbsp;`[path_to_diamond_program]` with the path to your Diamond program installation.
 
 The script will: \
 ·&nbsp;&nbsp;Generate a `temporary (tmp)` folder under the `prediction` folder. \
