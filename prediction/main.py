@@ -40,11 +40,31 @@ class DeepSep_neural_net(torch.nn.Module):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-sequence', help='str')
-    parser.add_argument('-diamond_program_path', help='path')
+    parser.add_argument('-sequence', help='raw sequence string (for short sequence)')
+    parser.add_argument('-sequence_file', type=str, help='path to FASTA file')
+    parser.add_argument('-diamond_program_path', help='path', required=True)
     args = parser.parse_args()
 
-    sequence = str(args.sequence)
+    if args.sequence_file:
+        try:
+            with open(args.sequence_file) as file:
+                fasta_record = SeqIO.read(file, "fasta")
+        except FileNotFoundError:
+            parser.error(f"File not found: {args.sequence_file}")
+        except ValueError:
+            parser.error(f"Invalid FASTA format: {args.sequence_file}")
+
+    else:
+        sequence = args.sequence.strip()
+        if not sequence.startswith('>'):
+            sequence = '>example\n' + sequence
+        fasta_record = SeqIO.read(io.StringIO(sequence), "fasta")
+    
+    sequence = str(fasta_record.seq)
+    id = '>' + str(fasta_record.id)
+
+    sequence = filtered_sequence_func(sequence)
+
     diamond_program_path = args.diamond_program_path
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -52,17 +72,6 @@ if __name__ == '__main__':
     checkpoint = torch.load('../model/best_checkpoint.pth.tar', map_location=torch.device(device))
     model = DeepSep_neural_net(AutoModel.from_pretrained('../model/checkpoint-11007')).to(device)
     model.load_state_dict(checkpoint['state_dict'])
-
-    sequence_string = filtered_sequence_func(sequence)
-
-    if not sequence_string.startswith('>'):
-        sequence_string = '>example\n' + sequence_string
-
-    sequence_file = io.StringIO(sequence_string)
-    fasta_sequence = SeqIO.read(sequence_file, "fasta")
-
-    sequence = str(fasta_sequence.seq)
-    id = '>' + str(fasta_sequence.id)
 
     prefix_location = f'./tmp'
 
