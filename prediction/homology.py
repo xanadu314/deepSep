@@ -26,10 +26,11 @@ def diamond_func(query, out, program_path, threads):
     logging.info('DIAMOND prediction starts on the dataset')
 
     program = program_path # './diamond_v2.1.8/diamond'
+    # 修改真实数据库路径
     db_path = '/home/xiaoyao/data1/deep-Sep/model/diamond/db.dmnd'
     outfmt = '6 stitle qseqid sseqid pident length mismatch gapopen qstart qend sstart send sseq_gapped qseq_gapped evalue bitscore'
-
-    command = f"{program} blastp --db {db_path} -q {query} --out {out} --outfmt {outfmt} --threads {threads} --masking 0 --ultra-sensitive --max-target-seqs 100 --id 20 -e 1e-2"
+    # 调整线程和内存
+    command = f"{program} blastp --db {db_path} -q {query} --out {out} --outfmt {outfmt} --threads 12 --masking 0 --faster --max-target-seqs 100 --id 20 -e 1e-2 -b 8 -c 1"
     os.system(command)
 
     logging.info('DIAMOND prediction ended on the dataset')
