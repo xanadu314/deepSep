@@ -117,20 +117,43 @@ def extract_pattern(title):
     return None
 
 def write(seqs, out_path, file_name):
-    file_name = file_name
+    """
+    将匹配结果写入 out_path/file_name
+    - 单个 4-tuple: (qseqid, qseq, stitle, sseq)
+    - list 内部也是 4-tuple
+    - 2-tuple 仅有 (qseqid, qseq) 时，标记为 # no_hit
+    """
+    with open(os.path.join(out_path, file_name), "w") as f:
+        if not seqs:      # 空列表
+            f.write("None\n")
+            return
 
-    with open(os.path.join(out_path, file_name), 'w') as f:
-        if seqs:
-            for item in seqs:
-                if isinstance(item, tuple):
+        for item in seqs:
+            # 单个 tuple
+            if isinstance(item, tuple):
+                if len(item) == 4:                  # 命中 ≥1
                     qseqid, qseq, stitle, sseq = item
-                    f.write(f'>{qseqid}\n')
-                elif isinstance(item, list):
-                    for i in item:
+                    f.write(f">{qseqid}\n")
+                elif len(item) == 2:                # 无命中
+                    qseqid, qseq = item
+                    f.write(f">{qseqid} # no_hit\n")
+                else:
+                    # 意外长度，写日志或直接跳过
+                    continue
+
+            # list of tuples
+            elif isinstance(item, list):
+                for i in item:
+                    if len(i) == 4:
                         qseqid, qseq, stitle, sseq = i
-                        f.write(f'>{qseqid}\n')
-        else:
-            f.write('None')
+                        f.write(f">{qseqid}\n")
+                    elif len(i) == 2:
+                        qseqid, qseq = i
+                        f.write(f">{qseqid} # no_hit\n")
+
+            # 其它类型，忽略或记录
+            else:
+                continue
 
 
 def analysis(result_output_dir, diamond_pred_results):
